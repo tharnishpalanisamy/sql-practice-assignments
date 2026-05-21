@@ -126,11 +126,31 @@ select * from RankedEmployees where rn <= 3
 --•	Second CTE → employees above department average 
 --Display final result.
 
+With recursiveCte as (
+select EmployeeID, EmployeeName , Salary , ManagerID , 1 as LEVEL 
+from Employees 
+Where ManagerID is NULL 
+
+UNION ALL
+
+select e.EmployeeID , e.EmployeeName , e.Salary , e.ManagerID , rc.LEVEL + 1
+from Employees e join recursiveCte rc on e.ManagerID = rc.EmployeeID 
+)
+select * from recursiveCte
+
+
 --Q10 - Create multiple CTEs to:
 --•	Calculate total sales per salesperson 
 --•	Rank salespersons based on total sales 
 
+WITH totalSale as (
+select SalesPerson,sum(Amount)as totalSale from Sales  group by SalesPerson 
+) , rankSale as (
+select * , DENSE_RANK() OVER(ORDER by totalSale desc) as rank from totalSale
+)
+select * from rankSale
 
+select * from Sales
 --Advanced Level
 --Q11 - Using multiple CTEs:
 --•	Find monthly sales totals 
