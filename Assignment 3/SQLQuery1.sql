@@ -86,10 +86,37 @@ select * from deptWiseSalary
 
 --Q5 - Using a CTE, find the second highest salary in each department.
 
+WITH secondHighestSalary as (
+select distinct(salary) as SecondHighestSalary from Employees
+order by Salary desc 
+offset 1 rows 
+fetch next 1 rows only
+)
+select * from secondHighestSalary
 
+select * from Employees
 
 --Q6 - Write a CTE to identify employees whose salary is greater than their department average.
+
+WITH moreThanAvg as (
+
+select * from Employees e1 where Salary > (
+select avg(salary) from Employees e2 where e1.Department = e2.Department
+) 
+)
+select * from moreThanAvg
+
+select avg(salary) from Employees e2 group by Department
+
+
 --Q7 - Using CTE, display top 3 highest paid employees in the company.
+
+WITH RankedEmployees as (
+SELECT * , ROW_NUMBER() OVER(order by salary) as rn from Employees  
+)
+select * from RankedEmployees where rn <= 3 
+
+
 --Q8 - Write a recursive CTE to display employee-manager hierarchy.
 
 --B. MULTIPLE CTE TASKS
