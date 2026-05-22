@@ -214,16 +214,32 @@ from personSale p join regionSale r on p.region = r.region
 
 
 select * from Sales
+
 --D. FIRST_VALUE() TASKS
 --Medium Level
 --Q18 - Display first sale amount for each salesperson.
+
+select  SalesPerson , SaleID , amount , FIRST_VALUE(amount) over(partition by salesPerson order by saleDate ) as firstValue
+from Sales
+
 --Q19 - Display earliest joined employee in each department using FIRST_VALUE().
 --Advanced Level
+
+select EmployeeName , Department , FIRST_VALUE(JoiningDate) over(partition by department order by joiningDate) as earliestJoining
+from Employees 
+
+
 --Q20 - Compare each employee salary with first hired employee salary in department.
+select EmployeeID , EmployeeName , Salary , FIRST_VALUE(salary) over(partition by department order by joiningDate) as firstHiredSalary
+from Employees
+
 
 --E. LAST_VALUE() TASKS
 --Medium Level
 --Q21 - Display latest sale amount for each salesperson using LAST_VALUE().
+
+
+
 --Q22 - Display last joined employee in each department.
 --Advanced Level
 --Q23 - Compare employee salary with latest joined employee salary in department.
