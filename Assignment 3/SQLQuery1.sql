@@ -321,27 +321,96 @@ from Employees
 
 --Q31 - Identify days where sales increased compared to previous sale date.
 
+with prevSales as (
+select * , lag(amount) over(order by saleDate) as previousSale  from Sales
+) 
+select * from prevSales where amount > previousSale
+
 --H. LEAD() TASKS
 --Medium Level
 --Q32 - Display next sale amount for each salesperson.
+
+select SaleID , SalesPerson , Amount as currentSale , 
+LEAD(amount) over(partition by salesPerson order by SaleId) as nextSale
+from Sales
+
 --Q33 - Display next employee joining date within department.
+
+select EmployeeID , EmployeeName , JoiningDate , Department,
+LEAD(JoiningDate) over(partition by Department order by joiningDate)  as NextEmpJoiningDate
+from Employees
+
 --Advanced Level
 --Q34 - Calculate future sales difference using LEAD().
+
+select SaleID , SalesPerson , Amount as currentSale , 
+lead(amount) over(partition by salesPerson order by saleId ) as futureSale , 
+lead(amount) over(partition by salesPerson order by saleId ) - Amount as salesDifference
+from Sales
+
 --Q35 - Find employees whose next employee salary differs by more than 10000.
+
+with nextEmpSalary as (
+select * , 
+lead(Salary) over(order by employeeId) as nextSalary
+from Employees
+)
+select * from nextEmpSalary where (nextSalary - salary ) > 10000 
 
 --I. RANK() TASKS
 --Medium Level
 --Q36 - Rank employees based on salary department-wise.
+
+select EmployeeID , EmployeeName , Salary , 
+RANK() Over(partition by department  order by salary)
+from Employees
+
+
 --Q37 - Rank salespersons based on total sales.
 
+with TotalSale as (
+select * , 
+sum(amount) over(partition by salesPerson) as totalSale
+from Sales
+)
+select SalesPerson ,totalSale, rank() over(order by totalSale ) as rank from TotalSale
 
 --Advanced Level
 --Q38 - Find top 2 salaried employees in each department using RANK().
+
+with rankedEmp as (
+select * , 
+rank() over(partition by department order by salary) as salaryRank
+from Employees
+)
+select * from rankedEmp where salaryRank in (1,2)
+
+
 --Q39 - Find lowest ranked salesperson in each region.
+
+with TotalSales as (
+select salesPerson,region , 
+sum(amount)  as totalSale 
+from Sales
+group by salesPerson , region 
+) 
+,RankedSales as (
+select * ,
+rank() over(partition by region order by totalSale ) as salesRank
+from TotalSales
+)
+select   SalesPerson , Region  , 
+LAST_VALUE(salesRank) over(order by salesRank desc) as lowestRank
+from RankedSales 
 
 --J. DENSE_RANK() TASKS
 --Medium Level
 --Q40 - Apply DENSE_RANK() on employee salaries department-wise.
+
+select EmployeeID ,EmployeeName , Salary , Department , 
+DENSE_RANK() over(partition by department order by salary)
+from Employees
+
 --Q41 - Find dense ranking of salespersons by region.
 --Advanced Level 
 --Q42 - Find second highest salary in each department using DENSE_RANK().
