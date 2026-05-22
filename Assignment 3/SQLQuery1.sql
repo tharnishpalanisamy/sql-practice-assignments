@@ -151,21 +151,69 @@ select * , DENSE_RANK() OVER(ORDER by totalSale desc) as rank from totalSale
 select * from rankSale
 
 select * from Sales
+
 --Advanced Level
 --Q11 - Using multiple CTEs:
 --•	Find monthly sales totals 
 --•	Find region-wise highest monthly sale 
+
+select * from Sales
+
+WITH monthlySale as (
+select Region,MONTH(SaleDate) as month , sum(Amount) as total from Sales group by region, MONTH(SaleDate)
+) , 
+RegionWiseTotal as (
+select * , RANK() OVER(partition by region order by total desc )  as rn from monthlySale
+)
+select * from RegionWiseTotal
+
 --Q12 - Using multiple CTEs, identify employees whose salary growth compared to department average exceeds 20%.
+
+WITH deptWiseAvg as (
+select Department,avg(salary) as avg from Employees group by Department 
+) , EmpMorethanAvg as (
+select e.EmployeeName , e.EmployeeID , e.Department , e.Salary , d.avg from Employees e join deptWiseAvg d on e.department = d.department  )
+select * from EmpMoreThanAvg where salary > avg*1.2
+
 
 --C. OVER(PARTITION BY) TASKS
 --Medium Level
 --Q13 - Display employee salary along with department-wise average salary using OVER(PARTITION BY).
+
+select EmployeeID , EmployeeName,Department,Salary ,avg(salary) over(partition by department ) as AvgSalary  from Employees
+
 --Q14 - Display running total of sales amount salesperson-wise.
+
+select * from Sales
+select SaleID ,SaleDate, SalesPerson , region , sum(amount) over(partition by salesPerson order by saleDate) 
+as runningTotal from Sales
+
+
 --Q15 - Display highest salary in each department without GROUP BY.
 --Advanced Level
+
+select Department , max(salary) over(partition by department) as maxSalary from Employees
+
 --Q16 - Display salary difference between employee salary and department maximum salary.
+
+select EmployeeID,EmployeeName, Department,salary, max(salary) over(partition by department) as 
+maxSalary ,max(salary) over(partition by department) - Salary as difference from Employees
+
 --Q17 - Find cumulative sales percentage contribution of each salesperson within their region.
 
+With personSale as (
+select Region, SalesPerson , sum(amount) as personSale  
+from Sales group by  SalesPerson , Region
+) , regionSale as (
+select region , sum(amount) as regionSale 
+from Sales group by Region
+)
+select p.region , p.salesperson ,p.personSale , (p.personSale*100) / r.regionSale
+from personSale p join regionSale r on p.region = r.region
+
+
+
+select * from Sales
 --D. FIRST_VALUE() TASKS
 --Medium Level
 --Q18 - Display first sale amount for each salesperson.
