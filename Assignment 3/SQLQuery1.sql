@@ -412,7 +412,33 @@ DENSE_RANK() over(partition by department order by salary)
 from Employees
 
 --Q41 - Find dense ranking of salespersons by region.
+
+select * from Sales
+with TotalSales as (
+select salesPerson,region , 
+sum(amount)  as totalSale 
+from Sales
+group by salesPerson , region 
+) 
+select * , 
+DENSE_RANK() over(partition by region order by totalSale)
+from totalSales
+
 --Advanced Level 
 --Q42 - Find second highest salary in each department using DENSE_RANK().
---Q43 - Identify top 3 unique salaries across company using DENSE_RANK().
+
+with rankedEmployee as (
+select * , 
+DENSE_RANK() over(partition by department order by salary desc ) as rankedSalary
+from Employees
+)
+select * from rankedEmployee where rankedSalary = 2 
+
+--Q43 - Identify top 3 unique salaries across company using DENSE_RANK(). 
+with rankedEmployee as (
+select * , 
+DENSE_RANK() over(order by salary desc ) as rankedSalary
+from Employees
+)
+select * from rankedEmployee where rankedSalary in (1,2,3)
 
