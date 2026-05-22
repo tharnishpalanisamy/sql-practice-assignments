@@ -238,27 +238,87 @@ from Employees
 --Medium Level
 --Q21 - Display latest sale amount for each salesperson using LAST_VALUE().
 
+select SaleID , SalesPerson , LAST_VALUE(Amount) 
+over(partition by salesPerson order by saleDate ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
+) as lastSale
+from Sales
 
 
 --Q22 - Display last joined employee in each department.
 --Advanced Level
---Q23 - Compare employee salary with latest joined employee salary in department.
+
+select EmployeeID , EmployeeName , Department , 
+LAST_VALUE(EmployeeName) over(partition by department order by joiningDate  
+rows between unbounded preceding and unbounded following) as lastJoin  
+from Employees
+
+with lastJoined as (
+select EmployeeID , EmployeeName , Department , JoiningDate ,
+ROW_NUMBER() over(partition by department order by joiningDate desc) as rn
+from Employees
+) 
+select employeeId , employeeName , Department , joiningDate from lastJoined where rn = 1 ; 
+
+--Q23 - Compare employee salary with latest joined employee salary in department. 
+
+select EmployeeID , EmployeeName , Salary , Department
+, LAST_VALUE(salary) 
+over(partition by department order by joiningdate desc rows between unbounded preceding and unbounded following ) as latestSalary 
+from Employees
 
 
 --F. RANGE BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
 --Medium Level
 --Q24 - Display total sales amount for entire salesperson partition using RANGE clause.
+
+select * from Sales
+select saleId, SalesPerson , 
+sum(amount) over(partition by salesPerson order by saleDate rows between unbounded preceding and unbounded following)  as totalsale
+from Sales
+
 --Q25 - Display department total salary for every employee row using RANGE clause.
+
+select EmployeeID , EmployeeName , Salary , 
+sum(salary) over(partition by department) as deptTotal
+from Employees
+
 --Advanced Level
 --Q26 - Display percentage contribution of each sale to total salesperson sales using RANGE BETWEEN.
+
+select SalesPerson , amount  , 
+sum(amount) over(partition by salesPerson) as total , 
+( amount  / sum(amount) over(partition by salesPerson) )*100  as contribution 
+from Sales
+
 --Q27 - Find employee salary contribution percentage within department.
+
+select EmployeeID, EmployeeName , salary , 
+sum(salary) over(partition by department) as deptTotal, 
+(Salary / sum(salary) over(partition by department) * 100) as contribution 
+from Employees
 
 --G. LAG() TASKS
 --Medium Level
 --Q28 - Display previous sale amount for each salesperson using LAG().
+
+select SalesPerson , SaleDate , Amount ,
+LAG(amount) over(partition by salesPerson order by saleDate) as previousSale
+from Sales
+
 --Q29 - Display previous employee salary within department ordered by joining date.
+
+select EmployeeID , EmployeeName , Salary , 
+lag(salary) over(partition by department order by joiningDate) as previousSalary
+from Employees
+
 --Advanced Level
 --Q30 - Find salary increase compared to previous joined employee within department.
+
+select EmployeeID , EmployeeName , Salary , 
+lag(salary) over(partition by department order by joiningDate) as previousSalary , 
+salary - lag(salary) over(partition by department order by joiningDate) as increase
+from Employees
+
 --Q31 - Identify days where sales increased compared to previous sale date.
 
 --H. LEAD() TASKS
