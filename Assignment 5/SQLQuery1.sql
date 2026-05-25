@@ -404,3 +404,16 @@ FROM EmployeeAttendance;
 
 --4.	Demonstrate the working of convert functions to format the date and other data with example and 
 --output (at least 5 examples)
+
+select FORMAT(GETDATE() , 'dd-MM-yyyy') as formattedDate
+
+select FORMAT(GETDATE() , 'dd-MMMM-yyyy') as formattedDate
+
+select FORMAT(GETDATE() , 'dd-MMM-yyyy') as formattedDate
+
+
+select CONVERT(varchar , GETDATE()) as convertedDate
+
+select CONVERT(DATE , GETDATE())  as convertedDate
+
+select CAST(GETDATE() as varchar)
