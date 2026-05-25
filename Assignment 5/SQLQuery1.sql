@@ -234,6 +234,173 @@ select count(*) as studentCount from students
 --20 
 
 SELECT  DEGREES(PI()) AS DegreeValue 
+
+
+
 --3.	 Demonstrate the working of at least 30 date functions with example and output
+
+CREATE TABLE EmployeeAttendance (
+    EmpID INT PRIMARY KEY,
+    EmpName VARCHAR(100),
+    Department VARCHAR(50),
+    JoinDate DATE,
+    BirthDate DATE,
+    LoginDateTime DATETIME,
+    Salary DECIMAL(10,2)
+);
+
+INSERT INTO EmployeeAttendance VALUES
+(1, 'Arun Kumar', 'HR', '2020-01-15', '1998-05-12', '2026-05-01 09:15:20', 45000),
+
+(2, 'Priya Sharma', 'Finance', '2019-03-10', '1997-08-22', '2026-05-02 08:45:10', 52000),
+
+(3, 'Rahul Verma', 'IT', '2021-06-25', '1999-11-05', '2026-05-03 09:05:30', 60000),
+
+(4, 'Sneha Reddy', 'Marketing', '2018-07-18', '1996-04-17', '2026-05-04 10:10:15', 48000),
+
+(5, 'Karan Patel', 'Sales', '2022-02-12', '2000-09-09', '2026-05-05 09:25:40', 55000),
+
+(6, 'Meena Iyer', 'HR', '2020-09-14', '1998-12-30', '2026-05-06 08:55:22', 47000),
+
+(7, 'Vikram Singh', 'IT', '2017-11-20', '1995-03-14', '2026-05-07 09:40:55', 72000),
+
+(8, 'Anjali Das', 'Finance', '2021-01-08', '1999-06-18', '2026-05-08 10:00:00', 51000),
+
+(9, 'Rohit Jain', 'Sales', '2019-08-27', '1997-01-25', '2026-05-09 09:35:11', 53000),
+
+(10, 'Divya Nair', 'Marketing', '2022-04-19', '2001-07-11', '2026-05-10 08:50:45', 49000),
+
+(11, 'Suresh Babu', 'IT', '2018-12-01', '1996-10-08', '2026-05-11 09:20:19', 68000),
+
+(12, 'Kavya Rao', 'HR', '2023-01-16', '2002-02-15', '2026-05-12 09:05:50', 46000),
+
+(13, 'Ajay Mehta', 'Finance', '2020-06-30', '1998-09-27', '2026-05-13 10:12:35', 58000),
+
+(14, 'Pooja Singh', 'Sales', '2019-10-09', '1997-05-19', '2026-05-14 09:48:41', 50000),
+
+(15, 'Nitin Joshi', 'Marketing', '2021-05-21', '1999-08-03', '2026-05-15 08:58:29', 47000),
+
+(16, 'Lakshmi Devi', 'IT', '2017-03-17', '1995-12-01', '2026-05-16 09:11:16', 75000),
+
+(17, 'Manoj Kumar', 'Finance', '2022-07-11', '2000-04-28', '2026-05-17 09:59:59', 54000),
+
+(18, 'Neha Kapoor', 'HR', '2020-11-23', '1998-06-09', '2026-05-18 10:07:44', 49000),
+
+(19, 'Harish Raj', 'Sales', '2018-02-05', '1996-01-13', '2026-05-19 09:18:52', 52000),
+
+(20, 'Aarthi Bala', 'Marketing', '2023-03-29', '2002-10-21', '2026-05-20 08:42:37', 51000),
+
+(21, 'Deepak Roy', 'IT', '2019-09-13', '1997-03-07', '2026-05-21 09:33:08', 64000),
+
+(22, 'Swathi Menon', 'HR', '2021-12-24', '2000-11-16', '2026-05-22 10:15:45', 47000),
+
+(23, 'Ganesh Kumar', 'Finance', '2018-05-02', '1996-07-24', '2026-05-23 08:49:13', 59000),
+
+(24, 'Riya Sharma', 'Sales', '2022-08-18', '2001-02-02', '2026-05-24 09:27:26', 53000),
+
+(25, 'Sanjay Patel', 'Marketing', '2020-10-31', '1998-09-14', '2026-05-25 09:55:55', 50000);
+
+--1
+select GETDATE() as currentDate
+
+--2 
+select FORMAT(GETDATE(),'dd-MMMM-yyyy') as formatedDate 
+
+--3 
+select CURRENT_TIMESTAMP as currentTimeStamp
+
+--4 
+select DAY(GETDATE()) as Day
+select MONTH(GETDATE()) as Month 
+select YEAR(GETDATE())  as Year
+
+--5 
+select DATEPART(DAY,GETDATE()) as Day
+select DATEPART(MONTH,GETDATE()) as Month
+select DATEPART(YEAR,GETDATE()) as Year
+
+--6 
+select DATENAME(DAY, GETDATE()) AS Day;
+select DATENAME(MONTH, GETDATE()) AS Month;
+select DATENAME(YEAR, GETDATE()) AS year;
+
+--7
+select DATEADD(DAY, 5, '2026-05-25') AS dayPlusFive;
+select DATEADD(MONTH, 5, '2026-05-25') AS monthPlusFive;
+select DATEADD(Year, 5, '2026-05-25') AS yearPlusFive;
+
+--8
+select DATEDIFF(DAY , '2026-03-16','2026-05-25' ) joiningDate 
+select DATEDIFF(Month , '2026-03-16','2026-05-25' ) joiningMonth 
+select DATEDIFF(Year , '2026-03-16','2026-05-25' ) joiningYear
+
+
+--9 
+select EOMONTH('2026-05-25') as lastDayOfMonth
+
+--10 
+select ISDATE('2026')
+select ISDATE('Not a date')
+
+
+--11 
+select CAST(GETDATE() as varchar)
+
+--12
+select CONVERT(varchar , GETDATE())
+select CONVERT(DATE , GETDATE())
+
+
+
+--13 
+
+select TIMEFROMPARTS(8, 30, 45, 0, 0) AS time;
+
+--14 
+select DATETIMEFROMPARTS(2026,12,15,12,45,30,0) as dateTime
+
+--15 
+
+select SWITCHOFFSET('2026-05-25 10:30:00 +05:30', '-04:00') AS ChangedOffset; 
+
+--16 
+select TODATETIMEOFFSET('2026-05-25 04:30:00' , '+05:30') setTimeZone
+
+
+--17 
+
+declare @dueDate datetime 
+set @dueDate = '2026-04-10'
+
+select IIF(GETDATE() > @dueDate , 'OverDue' , 'Pending') as status
+
+--18 
+select GETUTCDATE() AS UTCDateTime;
+
+--19 
+select CURRENT_TIMEZONE() AS TimeZoneName; 
+
+--20 
+select SYSDATETIMEOFFSET() AS SystemDateTimeOffset;
+
+--21
+select SMALLDATETIMEFROMPARTS(2026,12,20,10,30) as smallSate
+
+
+--22 
+select DATE_BUCKET(minute, 5, CAST(JoinDate AS DATETIME2)) 
+FROM EmployeeAttendance;
+
+--23
+select DATETRUNC(MONTH, '2026-05-25 14:45:30') AS MonthStart;
+
+--24
+SELECT EmpName , CHOOSE(MONTH(BirthDate),'Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec') AS BirthMonth
+FROM EmployeeAttendance;
+
+
+
+
+
 --4.	Demonstrate the working of convert functions to format the date and other data with example and 
 --output (at least 5 examples)
