@@ -138,6 +138,7 @@ select * from traineeMain
 --NetSalary = GrossSalary – deduction
 --Update these calculated values to the record using cursor
 
+
 CREATE Table employee(
 empId int primary key , 
 empName varchar(30) , 
@@ -289,6 +290,9 @@ close salaryCursor
 deallocate SalaryCursor 
 
 
+
+---- 3.	Insert at least 5 records excluding Grade field. Use the Cursor to update the Grade of the trainee after 
+--calculating the Grade value using if condition.
 
 select * from employee
 
