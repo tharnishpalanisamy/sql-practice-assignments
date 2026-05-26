@@ -292,79 +292,162 @@ deallocate SalaryCursor
 
 select * from employee
 
-
---3.Insert at least 5 records excluding Grade field. Use the Cursor to update the Grade of the trainee after calculating the Grade value 
---using if condition.
-
-select * from traineeCurrent
-select * from traineeMain
-
-INSERT INTO traineeMain
-(traineeId, traineeName, courseName, marksScored)
-VALUES
-(16, 'Arjun Rao', 'Python', '86'),
-(17, 'Keerthana S', 'Java', '91'),
-(18, 'Mohit Sharma', 'SQL', '77'),
-(19, 'Lavanya Priya', 'Full Stack', '84'),
-(20, 'Naveen Kumar', 'Data Science', '96'),
-(21, 'Ritika Jain', 'React', '88'),
-(22, 'Sanjay Patel', 'Python', '73'),
-(23, 'Deepika Nair', 'Java', '81'),
-(24, 'Harish Kumar', 'SQL', '67'),
-(25, 'Anu Mehta', 'Full Stack', '94');
-
-
-
-
+DECLARE @traineeId1 INT;
+DECLARE @marks1 INT;
 DECLARE @grade VARCHAR(10);
 
+-- Cursor
 DECLARE traineeCursor CURSOR FOR
-SELECT traineeId, marksScored
+SELECT traineeId, CAST(marksScored AS INT)
 FROM traineeMain;
 
 OPEN traineeCursor;
 
-FETCH NEXT FROM traineeCursor INTO @traineeId, @marks;
+FETCH NEXT FROM traineeCursor
+INTO @traineeId1, @marks1;
 
 WHILE @@FETCH_STATUS = 0
 BEGIN
 
-    IF @marks >= 95
+    IF @marks1 >= 95
         SET @grade = 'A+';
 
-    ELSE IF @marks >= 90
+    ELSE IF @marks1 >= 90
         SET @grade = 'A';
 
-    ELSE IF @marks >= 85
+    ELSE IF @marks1 >= 85
         SET @grade = 'B+';
 
-    ELSE IF @marks >= 80
+    ELSE IF @marks1 >= 80
         SET @grade = 'B';
 
-    ELSE IF @marks >= 70
+    ELSE IF @marks1>= 70
         SET @grade = 'C';
 
-    ELSE IF @marks >= 60
+    ELSE IF @marks1 >= 60
         SET @grade = 'D';
 
-    ELSE IF @marks >= 50
+    ELSE IF @marks1 >= 50
         SET @grade = 'E';
 
     ELSE
         SET @grade = 'F';
 
+    -- Update grade
     UPDATE traineeMain
     SET grade = @grade
-    WHERE traineeId = @traineeId;
+    WHERE traineeId = @traineeId1;
 
     FETCH NEXT FROM traineeCursor
-    INTO @traineeId, @marks;
+    INTO @traineeId1, @marks1;
 
 END;
 
 CLOSE traineeCursor;
 DEALLOCATE traineeCursor;
 
+SELECT * FROM traineeMain;
+
 
 --4.	Write two different scalar valued functions for the existing table and execute it.
+
+CREATE TABLE StudentMarks
+(
+    studentId INT PRIMARY KEY,
+    studentName VARCHAR(50),
+    tamil INT,
+    english INT,
+    maths INT,
+    science INT,
+    social INT
+);
+
+INSERT INTO StudentMarks
+(studentId, studentName, tamil, english, maths, science, social)
+VALUES
+(1, 'Arun', 85, 78, 92, 88, 80),
+(2, 'Priya', 90, 95, 89, 91, 87),
+(3, 'Kavin', 70, 65, 72, 68, 74),
+(4, 'Divya', 88, 84, 90, 86, 92),
+(5, 'Rahul', 60, 72, 58, 64, 69),
+(6, 'Sneha', 93, 89, 96, 94, 91),
+(7, 'Vikram', 76, 81, 79, 73, 77),
+(8, 'Meena', 82, 88, 85, 90, 84),
+(9, 'Ajay', 67, 70, 65, 72, 68),
+(10, 'Harini', 95, 97, 99, 96, 98);
+
+SELECT * FROM StudentMarks;
+
+CREATE FUNCTION calculatePercentage (
+@studentId int
+)
+returns decimal(10,2) 
+as 
+begin
+declare @mark1 int 
+declare @mark2 int 
+declare @mark3 int 
+declare @mark4 int 
+declare @mark5 int 
+
+declare @percentage decimal(10,2) 
+
+select @mark1 = tamil, @mark2 = english,@mark3 = maths, @mark4 = science,@mark5 = social from StudentMarks where studentId = @studentId
+
+set @percentage = (@mark1+@mark2 + @mark3 + @mark4 + @mark5) / 5 
+
+return @percentage
+end
+
+select dbo.calculatePercentage(7) 
+
+
+CREATE FUNCTION CalculateTotal (
+@studentId int
+)
+returns decimal(10,2) 
+as 
+begin
+declare @mark1 int 
+declare @mark2 int 
+declare @mark3 int 
+declare @mark4 int 
+declare @mark5 int 
+
+declare @total decimal(10,2) 
+
+select @mark1 = tamil, @mark2 = english,@mark3 = maths, @mark4 = science,@mark5 = social from StudentMarks where studentId = @studentId
+
+set @total = (@mark1+@mark2 + @mark3 + @mark4 + @mark5) 
+
+return @total
+end
+
+select dbo.CalculateTotal(5)
+
+
 --5.	Write two different table valued functions for the existing table and execute it.
+
+CREATE FUNCTION getHigherMathValue (
+@maths int
+) 
+returns table 
+as
+return (
+select * from StudentMarks where maths >= @maths
+)
+
+select * from dbo.getHigherMathValue(60)
+
+CREATE FUNCTION studentsAboveTotal(
+@total int
+)
+returns table 
+as
+return (
+select * from StudentMarks where (english+tamil+maths+science+social) >= @total
+)
+
+select * from dbo.studentsAboveTotal(450)
+
+
