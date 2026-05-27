@@ -15,7 +15,7 @@ BEGIN
 		waitfor delay '00:00:05' 
 
 		UPDATE HumanResources.Employee
-        SET SickLeaveHours = SickLeaveHours + 1
+        SET SickLeaveHours = 10
         WHERE BusinessEntityID = 1
 
 		COMMIT TRANSACTION 
@@ -36,14 +36,20 @@ BEGIN
 		PRINT 'ERROR No: '+cast(@errorNo as varchar) 
 		PRINT 'Error message : ' + @errorMes  
 
-		If @errorNo = 1205 
+		If @errorNo = 1205  
 			BEGIN 
-				IF @attempt > 4 
+			set @attempt = @attempt + 1
+				IF @attempt > @retry 
 					BEGIN 
 						PRINT 'Maxmium attempts exceeded , Transaction is aborted' 
+						BREAK
 					END
 				PRINT 'Deadlock is occured , transaction is exceuting again' 
-				set @attempt = @attempt + 1 
+			END
+		ELSE 
+			BEGIN
+				PRINT 'DeadLock keeps occuring try again later'
+				BREAK
 			END
 
 	END CATCH
