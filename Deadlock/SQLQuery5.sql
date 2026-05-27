@@ -1,15 +1,15 @@
-CREATE PROCEDURE Proc_Deadlock_2
+ALTER PROCEDURE Proc_Deadlock_2
 as
 begin
 
-    SET DEADLOCK_PRIORITY LOW
+    SET DEADLOCK_PRIORITY 10
 
     BEGIN TRY
 
         BEGIN TRANSACTION
 
         UPDATE HumanResources.Employee
-        SET SickLeaveHours = SickLeaveHours + 1
+        SET SickLeaveHours = 10
         WHERE BusinessEntityID = 1
 
         WAITFOR DELAY '00:00:05'
@@ -26,11 +26,14 @@ begin
 
     BEGIN CATCH
 
-        ROLLBACK TRANSACTION
+        IF @@TRANCOUNT > 0
+		BEGIN
+			ROLLBACK TRANSACTION
+		END
 
         if ERROR_NUMBER() = 1205
         BEGIN
-            PRINT 'Deadlock Victim'
+            PRINT 'this trnasaction is a Deadlock Victim'
         END
 
         else
@@ -41,5 +44,7 @@ begin
     END CATCH
 
 END
+
+exec Proc_Deadlock_2
 
 DBCC TRACEON(1222, -1)   -- this is used to enable deadlocks monitering 

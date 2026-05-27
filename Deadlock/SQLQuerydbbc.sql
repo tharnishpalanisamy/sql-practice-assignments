@@ -1,0 +1,1 @@
+DBCC TRACEON(1222, -1)

@@ -1,4 +1,4 @@
-CREATE PROCEDURE proc1 
+Alter PROCEDURE proc1 
 as
 begin 
 
@@ -25,8 +25,13 @@ begin
     END TRY
 
 	BEGIN CATCH 
-		ROLLBACK TRANSACTION 
-		PRINT 'Procedure 1 failed' 
+		IF @@TRANCOUNT > 0
+		BEGIN
+			ROLLBACK TRANSACTION
+		END
+		PRINT 'Procedure 1 is failed' 
 		PRINT ERROR_MESSAGE()
 	END CATCH
 END
+
+exec proc1
