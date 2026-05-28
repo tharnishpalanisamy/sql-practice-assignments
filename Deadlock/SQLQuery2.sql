@@ -1,18 +1,18 @@
 -- person , employee , business entity 
 
 SET DEADLOCK_PRIORITY 10 ; 
+
+BEGIN TRY 
 BEGIN TRANSACTION  
 
---BEGIN TRY 
-	INSERT INTO HumanResources.Employee (BusinessEntityID , NationalIDNumber , LoginID ,
-	JobTitle , BirthDate , MaritalStatus , Gender , HireDate , SalariedFlag , VacationHours , SickLeaveHours , CurrentFlag , ModifiedDate )
-	values 
-	(304,123123123,12341234,'deadlock','2005-07-25' , 'M' , 'M', '2026-03-16' , 1 , 10 , 10 , 1 , GETDATE())
+	UPDATE Person.BusinessEntity
+    SET ModifiedDate = GETDATE()
+    WHERE BusinessEntityID = 1
 
 	WAITFOR DELAY '00:00:05' 
 
 
-	UPDATE Person.person set FirstName = 'sastha' where BusinessEntityID = 3;
+	update HumanResources.Employee set HireDate = GETDATE() where BusinessEntityID = 2
 
 	COMMIT TRANSACTION
 END TRY 
