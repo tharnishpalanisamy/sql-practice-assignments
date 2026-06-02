@@ -107,3 +107,18 @@ join room r on r.roomId = a.roomId
 join patientDisease pd on p.patientId = pd.patientId 
 join disease d on d.diseaseId = pd.diseaseId 
 group by d.treatmentCost , p.patientName , p.patientId , b.billId , r.cost
+
+
+create view generateReport 
+as
+select p.patientId , p.patientName , p.age , p.gender , r.roomId, pd.diseaseId , d.diseaseName ,  
+doc.doctorId , e.empName as doctorName , d.treatmentCost , r.cost , 
+r.cost + d.treatmentCost as totalBill
+from patient p 
+join patientDisease pd on p.patientId = pd.patientId 
+join disease d on d.diseaseId = pd.diseaseId 
+join admission a on a.patientId = p.patientId 
+join room r on r.roomId = a.roomId 
+join doctor doc on doc.doctorId = a.doctorId 
+join employee e on e.empId = doc.empId 
+
