@@ -1,0 +1,499 @@
+Phase 1 – Core Querying (Must Be Instant)
+Filtering & Sorting
+Q1
+
+Retrieve employees whose salary is greater than the average salary.
+
+Q2
+
+Retrieve employees whose name starts with A and ends with n.
+
+Q3
+
+Find employees who joined in the last 6 months.
+
+Q4
+
+Display top 3 highest-paid employees with ties.
+
+Q5
+
+Retrieve duplicate email records.
+
+Q6
+
+Retrieve departments having more than 5 employees.
+
+Q7
+
+Display the second highest salary.
+
+Q8
+
+Display the nth highest salary.
+
+Phase 2 – GROUP BY + Aggregation
+Aggregates
+Q9
+
+Department-wise employee count.
+
+Q10
+
+Department-wise maximum salary.
+
+Q11
+
+Departments whose average salary exceeds ₹50,000.
+
+Q12
+
+Display total salary and grand total using ROLLUP.
+
+Q13
+
+Display subtotal and grand total using CUBE.
+
+Q14
+
+Department-wise salary percentage contribution.
+
+Phase 3 – Joins (Important)
+
+You already practiced lots of joins. Revise only these.
+
+Q15
+
+Employee + Department
+
+Q16
+
+Employee + Department + Project
+
+Q17
+
+Employees without department
+
+Q18
+
+Departments without employees
+
+Q19
+
+Customers without orders
+
+Q20
+
+Products never sold
+
+Q21
+
+Employee and Manager (Self Join)
+
+Q22
+
+Employees working in same department
+
+Q23
+
+Find managers having more than 3 team members
+
+These cover almost all join patterns.
+
+Phase 4 – Subqueries
+
+You have an entire assignment dedicated to this. Revise only these patterns.
+
+Single Row
+Q24
+
+Employees earning above average salary.
+
+Q25
+
+Employees earning more than department average.
+
+Multi Row
+Q26
+
+Employees working in departments returned by another query.
+
+Q27
+
+Salary > ALL Finance employees.
+
+Q28
+
+Salary > ANY IT employee.
+
+EXISTS
+Q29
+
+Departments that have employees.
+
+Q30
+
+Employees who have projects.
+
+Q31
+
+Employees who do not have projects.
+
+Correlated
+Q32
+
+Highest salary employee in every department.
+
+Q33
+
+Employees earning above their department average.
+
+Phase 5 – CTE
+
+Your assignment already covers most important CTE patterns.
+
+Q34
+
+Employees earning above company average.
+
+Q35
+
+Department-wise total salary.
+
+Q36
+
+Second highest salary per department.
+
+Q37
+
+Top 3 highest-paid employees.
+
+Q38
+
+Recursive employee-manager hierarchy.
+
+Q39
+
+Multiple CTE:
+
+department avg salary
+employees above avg
+Phase 6 – Window Functions
+
+Most important office topic.
+
+Q40
+
+Department average salary using OVER()
+
+Q41
+
+Running total of sales.
+
+Q42
+
+Department maximum salary without GROUP BY.
+
+Q43
+
+Salary difference from department maximum.
+
+Q44
+
+Department-wise cumulative salary.
+
+Q45
+
+Percentage contribution within department.
+
+Phase 7 – Ranking Functions
+Q46
+
+Apply ROW_NUMBER()
+
+Q47
+
+Apply RANK()
+
+Q48
+
+Apply DENSE_RANK()
+
+Q49
+
+Find top 2 salaries in each department.
+
+Q50
+
+Find bottom 3 salaries in each department.
+
+Phase 8 – LAG / LEAD
+Q51
+
+Compare current sale with previous sale.
+
+Q52
+
+Find salary growth compared with previous employee.
+
+Q53
+
+Find days gap between orders.
+
+Q54
+
+Display next order amount.
+
+These are directly from your window-function assignment.
+
+Phase 9 – Views
+Q55
+
+Create simple view.
+
+Q56
+
+Create join view.
+
+Q57
+
+Create complex view.
+
+Q58
+
+Update data through view.
+
+Q59
+
+When is a view updatable?
+
+Phase 10 – Indexes
+Q60
+
+Create clustered index.
+
+Q61
+
+Create non-clustered index.
+
+Q62
+
+Create filtered index.
+
+Q63
+
+How to check index usage?
+
+Q64
+
+When does index hurt performance?
+
+Q65
+
+Clustered vs Non-Clustered.
+
+These came from your SP/Trigger/Index assignment.
+
+Phase 11 – Stored Procedures
+Q66
+
+Procedure without parameters.
+
+Q67
+
+Procedure with input parameter.
+
+Q68
+
+Procedure with output parameter.
+
+Q69
+
+Procedure returning result set.
+
+Q70
+
+Procedure using transaction.
+
+Q71
+
+Procedure using TRY-CATCH.
+
+Phase 12 – Functions
+Scalar
+Q72
+
+Calculate bonus.
+
+Q73
+
+Calculate percentage.
+
+Table Valued
+Q74
+
+Return all employees in HR.
+
+Q75
+
+Return employees above average salary.
+
+Covered in your assignments.
+
+Phase 13 – Triggers
+Q76
+
+Audit trigger.
+
+Q77
+
+Prevent negative salary.
+
+Q78
+
+Auto log deleted records.
+
+Q79
+
+AFTER INSERT trigger.
+
+Q80
+
+INSTEAD OF DELETE trigger.
+
+Phase 14 – MERGE
+Q81
+
+Sync Main and Current tables.
+
+Q82
+
+Handle:
+
+INSERT
+UPDATE
+DELETE
+
+using single MERGE statement.
+
+This came from your Merge assignment.
+
+Phase 15 – Cursors
+
+Don't waste time doing many cursor problems.
+
+Just revise:
+
+Q83
+
+Update grades using cursor.
+
+Q84
+
+Salary calculation using cursor.
+
+Q85
+
+Loop through records and generate report.
+
+That's enough.
+
+Phase 16 – Transactions & Exception Handling
+
+Very important for office review.
+
+Q86
+
+Money transfer with COMMIT.
+
+Q87
+
+Money transfer with ROLLBACK.
+
+Q88
+
+TRY-CATCH logging.
+
+Q89
+
+Custom THROW error.
+
+Q90
+
+Nested TRY-CATCH.
+
+Q91
+
+Stock/order processing transaction.
+
+These directly match your exception-handling tasks.
+
+Phase 17 – Security
+Q92
+
+Create User.
+
+Q93
+
+GRANT SELECT.
+
+Q94
+
+GRANT INSERT.
+
+Q95
+
+REVOKE permissions.
+
+Q96
+
+Role vs User.
+
+Phase 18 – Review Questions (Theory)
+Q97
+
+DELETE vs TRUNCATE vs DROP
+
+Q98
+
+CHAR vs VARCHAR vs NVARCHAR
+
+Q99
+
+PRIMARY KEY vs UNIQUE KEY
+
+Q100
+
+Clustered vs Non-Clustered Index
+
+Q101
+
+Function vs Procedure
+
+Q102
+
+CTE vs Temp Table
+
+Q103
+
+JOIN vs Subquery
+
+Q104
+
+RANK vs DENSE_RANK vs ROW_NUMBER
+
+Q105
+
+TRIGGER vs PROCEDURE
+
+Q106
+
+MERGE advantages
+
+Q107
+
+Cursor drawbacks
+
+Q108
+
+COMMIT vs ROLLBACK
