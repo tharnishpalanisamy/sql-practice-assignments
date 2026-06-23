@@ -400,6 +400,9 @@ Loop through records and generate report.
 
 That's enough.
 
+
+
+
 Phase 16 – Transactions & Exception Handling
 
 Very important for office review.
@@ -429,6 +432,9 @@ Q91
 Stock/order processing transaction.
 
 These directly match your exception-handling tasks.
+
+
+
 
 Phase 17 – Security
 Q92
