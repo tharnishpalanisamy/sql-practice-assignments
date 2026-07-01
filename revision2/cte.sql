@@ -162,3 +162,13 @@ select * from Employees
 where Salary > (
 select avg(salary) from Employees)
 )select * from aboveAvgSary 
+
+
+
+
+
+
+
+
+
+
